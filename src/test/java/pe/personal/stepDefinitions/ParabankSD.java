@@ -38,5 +38,21 @@ public class ParabankSD {
         steps.shouldDisplayErrorMessage(message);
     }
 
+    @When("enters the username {string} and password {string}")
+    public void entersUsernamePassword(String user, String pass){
+        steps.entersUsernamePassword(user, pass);
+    }
+    @And("selects link {string}")
+    public void selectsLinkFromMenu(String var){
+        steps.selectsLinkFromMenu(var);
+    }
+    @And("opens an account {string} and selects minimum of {string} to be deposited")
+    public void opensAnAccount(String accountType, String amount){
+        steps.opensAnAccount(accountType, amount);
+    }
+    @Then("should display {string}")
+    public void shouldDisplay(String var){
+        steps.shouldDisplay(var);
+    }
 
 }

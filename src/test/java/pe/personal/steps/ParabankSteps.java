@@ -7,13 +7,14 @@ import net.serenitybdd.core.environment.EnvironmentSpecificConfiguration;
 import net.thucydides.core.annotations.Step;
 import net.thucydides.core.util.EnvironmentVariables;
 import org.junit.Assert;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pe.personal.ui.*;
 
 import java.util.List;
 import java.util.Map;
 
-import static pe.personal.utils.Util.scrollDown;
-import static pe.personal.utils.Util.waitTime;
+import static pe.personal.utils.Util.*;
 
 public class ParabankSteps {
 
@@ -21,8 +22,13 @@ public class ParabankSteps {
 
     HomePage homePage;
     RegisterPage registerPage;
+    LoginPage loginPage;
+    MenuPage menuPage;
+    AccountPage accountPage;
 
     String varUsername = "";
+
+    private static final Logger logger = LoggerFactory.getLogger(ParabankSteps.class);
 
     @Step
     public void openParabankPage(){
@@ -75,6 +81,54 @@ public class ParabankSteps {
     public void shouldDisplayErrorMessage(String message){
         Serenity.takeScreenshot();
         Assert.assertEquals(message,registerPage.lblPasswordErrorMessage.getText());
+    }
+
+    public void entersUsernamePassword(String user, String pass){
+        loginPage.txtUsername.click();
+        loginPage.txtUsername.type(user);
+        loginPage.txtPassword.type(pass);
+        Serenity.takeScreenshot();
+        loginPage.btnLogIn.click();
+        waitTime(2);
+    }
+    public void selectsLinkFromMenu(String var){
+        Serenity.takeScreenshot();
+        switch (var) {
+            case "Open New Account":
+                menuPage.linkOpenNewAccount.click();
+                break;
+            case "Accounts Overview":
+                menuPage.linkAccountsOverview.click();
+                break;
+            case "Transfer Funds":
+                menuPage.linkTransferFunds.click();
+                break;
+            case "Bill Pay":
+                menuPage.linkBillPay.click();
+                break;
+            case "Find Transactions":
+                menuPage.linkFindTransactions.click();
+                break;
+            case "Update Contact Info":
+                menuPage.linkUpdateContactInfo.click();
+            default:
+                menuPage.linkRequestLoan.click();
+        }
+        waitTime(2);
+    }
+    public void opensAnAccount(String accountType, String amount){
+        selectValueFromCombobox("type", accountType);
+        selectValueFromCombobox("fromAccountId", amount);
+        accountPage.btnOpenNewAccount.isDisplayed();
+        accountPage.btnOpenNewAccount.click();
+        waitTime(2);
+    }
+    public void shouldDisplay(String message){
+        Serenity.takeScreenshot();
+        logger.info(accountPage.lblAccountOpened.getText());
+        Assert.assertEquals(message,accountPage.lblAccountOpened.getText());
+        registerPage.linkLogOut.click();
+        waitTime(2);
     }
 
 }
