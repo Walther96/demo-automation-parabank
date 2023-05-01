@@ -28,7 +28,7 @@ public class ParabankSteps {
 
     String varUsername = "";
 
-    private static final Logger logger = LoggerFactory.getLogger(ParabankSteps.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ParabankSteps.class);
 
     @Step
     public void openParabankPage(){
@@ -91,9 +91,9 @@ public class ParabankSteps {
         loginPage.btnLogIn.click();
         waitTime(2);
     }
-    public void selectsLinkFromMenu(String var){
+    public void selectsLinkFromMenu(String option){
         Serenity.takeScreenshot();
-        switch (var) {
+        switch (option) {
             case "Open New Account":
                 menuPage.linkOpenNewAccount.click();
                 break;
@@ -125,7 +125,7 @@ public class ParabankSteps {
     }
     public void shouldDisplay(String message){
         Serenity.takeScreenshot();
-        logger.info(accountPage.lblAccountOpened.getText());
+        LOGGER.info(accountPage.lblAccountOpened.getText());
         Assert.assertEquals(message,accountPage.lblAccountOpened.getText());
         registerPage.linkLogOut.click();
         waitTime(2);
