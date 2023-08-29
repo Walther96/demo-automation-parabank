@@ -34,7 +34,6 @@ public class ParabankSteps {
     public void openParabankPage(){
         homePage.openUrl(EnvironmentSpecificConfiguration.from(environmentVariables).getProperty("parabank.base.url"));
         homePage.logo.isDisplayed();
-        Serenity.takeScreenshot();
         waitTime(3);
     }
 
@@ -45,6 +44,7 @@ public class ParabankSteps {
         Assert.assertEquals("Signing up is easy!",registerPage.titlePage.getText().trim());
     }
 
+    @Step
     public void enterPersonalInformation(DataTable table){
         List<Map<String, String>> list = table.asMaps(String.class, String.class);
         registerPage.typeFirstName(list.get(0).get("First name"));
@@ -55,8 +55,8 @@ public class ParabankSteps {
         registerPage.typeAddressZipCode(list.get(0).get("Zip code"));
         registerPage.typePhone(list.get(0).get("Phone"));
         registerPage.typeSSN(list.get(0).get("SSN"));
-        Serenity.takeScreenshot();
     }
+    @Step
     public void enterLoginInfo(DataTable table){
         scrollDown("100");
         List<Map<String, String>> list = table.asMaps(String.class, String.class);
@@ -65,34 +65,36 @@ public class ParabankSteps {
         varUsername = registerPage.txtUsername.getValue();
         registerPage.typePassword(list.get(0).get("Password"));
         registerPage.typeRepeatPassword(list.get(0).get("Repeat password"));
-        Serenity.takeScreenshot();
         registerPage.pressButtonRegister();
         scrollDown("100");
         waitTime(3);
     }
+
+    @Step
     public void confirmAccountCreated(){
         registerPage.lblWelcomeTitle.isDisplayed();
         Assert.assertEquals("Welcome "+varUsername,registerPage.lblWelcomeTitle.getText().trim());
         Assert.assertEquals("Your account was created successfully. You are now logged in.",registerPage.lblMessageAccountCreated.getText().trim());
-        Serenity.takeScreenshot();
         registerPage.linkLogOut.click();
         waitTime(3);
     }
+
+    @Step
     public void shouldDisplayErrorMessage(String message){
-        Serenity.takeScreenshot();
         Assert.assertEquals(message,registerPage.lblPasswordErrorMessage.getText());
     }
 
+    @Step
     public void entersUsernamePassword(String user, String pass){
         loginPage.txtUsername.click();
         loginPage.txtUsername.type(user);
         loginPage.txtPassword.type(pass);
-        Serenity.takeScreenshot();
         loginPage.btnLogIn.click();
         waitTime(2);
     }
+
+    @Step
     public void selectsLinkFromMenu(String option){
-        Serenity.takeScreenshot();
         switch (option) {
             case "Open New Account":
                 menuPage.linkOpenNewAccount.click();
@@ -116,6 +118,8 @@ public class ParabankSteps {
         }
         waitTime(2);
     }
+
+    @Step
     public void opensAnAccount(String accountType, String amount){
         selectValueFromCombobox("type", accountType);
         selectValueFromCombobox("fromAccountId", amount);
@@ -123,8 +127,9 @@ public class ParabankSteps {
         accountPage.btnOpenNewAccount.click();
         waitTime(2);
     }
+
+    @Step
     public void shouldDisplay(String message){
-        Serenity.takeScreenshot();
         LOGGER.info(accountPage.lblAccountOpened.getText());
         Assert.assertEquals(message,accountPage.lblAccountOpened.getText());
         registerPage.linkLogOut.click();

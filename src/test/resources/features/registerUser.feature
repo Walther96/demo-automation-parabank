@@ -1,7 +1,8 @@
-@RegisterUser
+@registerUser
+@regression
 Feature: Register User
 
-  @RegisterSuccess
+  @registerSuccess
   Scenario: Successful user registration on the PARABANK website
     Given the user opens PARABANK page
     And goes to the Register option
@@ -14,7 +15,7 @@ Feature: Register User
     Then confirms that his account has been created
 
 
-  @RegisterNotSuccess
+  @registerNotSuccess
   Scenario: Not Successful user registration on the PARABANK website
     Given the user opens PARABANK page
     And goes to the Register option
@@ -25,3 +26,4 @@ Feature: Register User
       | Password   | Repeat password |
       | uperes001  | uperes010       |
     Then should display a message "Passwords did not match."
+

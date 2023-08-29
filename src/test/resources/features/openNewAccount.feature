@@ -1,7 +1,8 @@
-@OpenAccount
+@openAccount
+@regression
 Feature: Transfer Funds
 
-  @OpenNewAccount
+  @openNewAccount
   Scenario: Trunsfer funds on the PARABANK website
     Given the user opens PARABANK page
     When enters the username "mlopez" and password "mlopez"

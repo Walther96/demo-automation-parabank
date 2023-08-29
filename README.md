@@ -3,11 +3,11 @@
 Web automation project using Page Object Model as a design pattern. Made with Java, Selenium-Cucumber and Serenity, with a BDD approach.
 
 * Pre-requisites:
-    * Java 11
+    * Java 17+
     * Maven
 
 
 * **Command to run the Features**
 
-  clean verify -Denvironment=dev "-Dcucumber.options=--tags @RegisterUser"
+  clean verify -Dcucumber.filter.tags=@${feature} -Denvironment=dev"
 
