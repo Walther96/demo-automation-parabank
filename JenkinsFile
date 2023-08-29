@@ -21,7 +21,7 @@ pipeline {
                 bat "mvn serenity:aggregate"
             }
         }
-        stage('Generate Serenity Report') {
+  /*      stage('Generate Serenity Report') {
             steps {
                 println('**** Generating report ****')
                 publishHTML(
@@ -36,7 +36,7 @@ pipeline {
                         ]
                 )
             }
-        }
+        }*/
 		
     }
 
