@@ -2,7 +2,7 @@
 pipeline {
     agent any
     parameters {
-        string(defaultValue: 'uat', name: 'ENVIRONMENT')
+        string(defaultValue: 'prd', name: 'ENVIRONMENT')
         string(defaultValue: 'regression', name: 'TAG')
     }
     stages {
