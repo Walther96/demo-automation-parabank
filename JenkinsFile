@@ -3,7 +3,7 @@ pipeline {
     agent any
     parameters {
         string(defaultValue: 'uat', name: 'ENVIRONMENT')
-        string(defaultValue: '@regression', name: 'TAG')
+        string(defaultValue: 'regression', name: 'TAG')
     }
     stages {
         stage('Checkout Code') {
@@ -17,8 +17,8 @@ pipeline {
         stage('Run Account Demo Tests') {
             steps {
                 println('**** Trigger Web Tests ****')
-                sh "mvn clean verify -Dcucumber.filter.tags=@${TAG} -Denvironment=${ENVIRONMENT}"
-                sh "mvn serenity:aggregate"
+                bat "mvn clean verify -Dcucumber.filter.tags=@${TAG} -Denvironment=${ENVIRONMENT}"
+                bat "mvn serenity:aggregate"
             }
         }
         stage('Generate Serenity Report') {
@@ -39,6 +39,18 @@ pipeline {
         }
 		
     }
+
+    post {
+        success {
+            // Acciones después de un éxito
+            echo 'El pipeline se ejecutó exitosamente.'
+        }
+        failure {
+            // Acciones después de un fallo
+            echo 'El pipeline falló. Se requiere atención.'
+        }
+    }
+
 }
 
 
