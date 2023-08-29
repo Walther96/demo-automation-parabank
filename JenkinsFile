@@ -21,7 +21,7 @@ pipeline {
                 bat "mvn serenity:aggregate"
             }
         }
-  /*      stage('Generate Serenity Report') {
+        stage('Generate Serenity Report') {
             steps {
                 println('**** Generating report ****')
                 publishHTML(
@@ -29,14 +29,15 @@ pipeline {
                                 alwaysLinkToLastBuild: true,
                                 allowMissing: true,
                                 keepAll: true,
-                                reportDir: 'target/site/serenity',
+                                reportDir: 'target/site/serenity/',
                                 reportFiles: 'index.html',
                                 reportName: 'Resultado Demo Parabank',
-                                reportTitles: 'Demo Parabank'
+                                reportTitles: 'Demo Parabank',
+                                useWrapperFileDirectly: true
                         ]
                 )
             }
-        }*/
+        }
 		
     }
 
