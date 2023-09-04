@@ -2,7 +2,6 @@ package pe.personal.steps;
 
 import com.github.javafaker.Faker;
 import io.cucumber.datatable.DataTable;
-import net.serenitybdd.core.Serenity;
 import net.serenitybdd.core.environment.EnvironmentSpecificConfiguration;
 import net.thucydides.core.annotations.Step;
 import net.thucydides.core.util.EnvironmentVariables;
