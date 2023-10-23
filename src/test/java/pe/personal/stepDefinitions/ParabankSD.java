@@ -25,9 +25,9 @@ public class ParabankSD {
     public void enterPersonalInformation(DataTable table){
         steps.enterPersonalInformation(table);
     }
-    @And("enters his login info")
-    public void enterLoginInfo(DataTable table){
-        steps.enterLoginInfo(table);
+    @And("^enters his login info with (CORRECT|INCORRECT) values$")
+    public void enterLoginInfo(String flow){
+        steps.enterLoginInfo(flow);
     }
     @Then("confirms that his account has been created")
     public void confirmAccountCreated(){
@@ -38,17 +38,17 @@ public class ParabankSD {
         steps.shouldDisplayErrorMessage(message);
     }
 
-    @When("enters the username {string} and password {string}")
-    public void entersUsernamePassword(String user, String pass){
-        steps.entersUsernamePassword(user, pass);
+    @When("enters the username and password")
+    public void entersUsernamePassword(){
+        steps.entersUsernamePassword();
     }
     @And("selects link {string}")
     public void selectsLinkFromMenu(String var){
         steps.selectsLinkFromMenu(var);
     }
-    @And("opens an account {string} and selects minimum of {string} to be deposited")
-    public void opensAnAccount(String accountType, String amount){
-        steps.opensAnAccount(accountType, amount);
+    @And("opens an account {string} and selects account to transfer funds")
+    public void opensAnAccount(String accountType){
+        steps.opensAnAccount(accountType);
     }
     @Then("should display {string}")
     public void shouldDisplay(String var){

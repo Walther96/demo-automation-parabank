@@ -1,13 +1,24 @@
-# demo-automation-parabank
+# Personal Portfolio - WC
 
-Web automation project using Page Object Model as a design pattern. Made with Java, Selenium-Cucumber and Serenity, with a BDD approach.
+This is a web automation project using Page Object Model as a design pattern. Made with Java, Selenium-Cucumber and Serenity, with a BDD approach.
 
 * Pre-requisites:
     * Java 17+
-    * Maven
+    * Maven 3.9.x
 
 
-* **Command to run the Features**
+### Execution Tags
 
-  clean verify -Dcucumber.filter.tags=@${feature} -Denvironment=dev"
+mvn clean verify -Dcucumber.filter.tags=@{TAG} -Denvironment=prd
+
+| Tag | Descripción                            |
+| ------------- |----------------------------------------|
+| `@regression` | Run all scenarios                      |
+| `@parabank-account` | Run scenarios of Account Feature       |
+| `@parabank-registerUser` | Run scenarios of Register User Feature |
+
+
+### Report path
+
+The Serenity test report will be generated in the directory: `target/site/serenity`.
 

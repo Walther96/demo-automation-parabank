@@ -1,4 +1,4 @@
-@registerUser
+@parabank-registerUser
 @regression
 Feature: Register User
 
@@ -9,9 +9,7 @@ Feature: Register User
     When the user enters his personal information
       | First name | Last name | Address | City | State | Zip code | Phone     | SSN    |
       | MARCOS     | LOPEZ     | AV Lima | Lima | Lima  | 01       | 999888777 | 123456 |
-    And enters his login info
-      | Password   | Repeat password |
-      | mlopez1    | mlopez1         |
+    And enters his login info with CORRECT values
     Then confirms that his account has been created
 
 
@@ -22,8 +20,6 @@ Feature: Register User
     When the user enters his personal information
       | First name | Last name | Address | City | State | Zip code | Phone     | SSN    |
       | Ulises     | Perez     | AV Lima | Lima | Lima  | 01       | 999888777 | 123456 |
-    And enters his login info
-      | Password   | Repeat password |
-      | uperes001  | uperes010       |
+    And enters his login info with INCORRECT values
     Then should display a message "Passwords did not match."
 
