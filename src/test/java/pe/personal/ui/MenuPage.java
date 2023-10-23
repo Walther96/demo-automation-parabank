@@ -1,30 +1,62 @@
 package pe.personal.ui;
 
-import net.serenitybdd.core.pages.WebElementFacade;
 import net.thucydides.core.pages.PageObject;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import static pe.personal.utils.TimerManager.waitTime;
 
 public class MenuPage extends PageObject {
 
     @FindBy(linkText = "Open New Account")
-    public WebElementFacade linkOpenNewAccount;
+    private WebElement linkOpenNewAccount;
 
     @FindBy(linkText = "Accounts Overview")
-    public WebElementFacade linkAccountsOverview;
+    private WebElement linkAccountsOverview;
 
     @FindBy(linkText = "Transfer Funds")
-    public WebElementFacade linkTransferFunds;
+    private WebElement linkTransferFunds;
 
     @FindBy(linkText = "Bill Pay")
-    public WebElementFacade linkBillPay;
+    private WebElement linkBillPay;
 
     @FindBy(linkText = "Find Transactions")
-    public WebElementFacade linkFindTransactions;
+    private WebElement linkFindTransactions;
 
     @FindBy(linkText = "Update Contact Info")
-    public WebElementFacade linkUpdateContactInfo;
+    private WebElement linkUpdateContactInfo;
 
     @FindBy(linkText = "Request Loan")
-    public WebElementFacade linkRequestLoan;
+    private WebElement linkRequestLoan;
+
+    public void pressOpenNewAccountLink(){
+        linkOpenNewAccount.isDisplayed();
+        linkOpenNewAccount.click();
+        waitTime(2);
+    }
+    public void pressAccountOverviewLink(){
+        linkAccountsOverview.isDisplayed();
+        linkAccountsOverview.click();
+    }
+    public void pressTransferFundsLink(){
+        linkTransferFunds.isDisplayed();
+        linkTransferFunds.click();
+    }
+    public void pressBillPayLink(){
+        linkBillPay.isDisplayed();
+        linkBillPay.click();
+    }
+    public void pressFindTransactionsLink(){
+        linkFindTransactions.isDisplayed();
+        linkFindTransactions.click();
+    }
+    public void pressUpdateContactInfoLink(){
+        linkUpdateContactInfo.isDisplayed();
+        linkUpdateContactInfo.click();
+    }
+    public void pressRequestLoanLink(){
+        linkRequestLoan.isDisplayed();
+        linkRequestLoan.click();
+    }
 
 }

@@ -31,7 +31,7 @@ pipeline {
                                 keepAll: true,
                                 reportDir: 'target/site/serenity/',
                                 reportFiles: 'index.html',
-                                reportName: 'Resultado Demo Parabank',
+                                reportName: 'Parabank Demo Result',
                                 reportTitles: 'Demo Parabank',
                                 useWrapperFileDirectly: true
                         ]
@@ -43,15 +43,12 @@ pipeline {
 
     post {
         success {
-            // Acciones después de un éxito
-            echo 'El pipeline se ejecutó exitosamente.'
+            echo 'The pipeline was executed successfully.'
         }
         failure {
-            // Acciones después de un fallo
-            echo 'El pipeline falló. Se requiere atención.'
+            echo 'The pipeline failed.'
         }
     }
 
 }
-
 
