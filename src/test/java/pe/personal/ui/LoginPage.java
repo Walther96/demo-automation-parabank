@@ -3,8 +3,7 @@ package pe.personal.ui;
 import net.thucydides.core.pages.PageObject;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import static pe.personal.utils.TimerManager.waitTime;
+import pe.personal.utils.TimerManager;
 
 public class LoginPage extends PageObject{
 
@@ -25,7 +24,7 @@ public class LoginPage extends PageObject{
     }
     public void pressLoginButton(){
         btnLogIn.click();
-        waitTime(2);
+        TimerManager.waitTime(2);
     }
 
 }

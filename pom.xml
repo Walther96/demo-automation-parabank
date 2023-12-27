@@ -41,7 +41,6 @@
             <artifactId>serenity-cucumber</artifactId>
             <version>${cucumber.version}</version>
         </dependency>
-
         <dependency>
             <groupId>net.serenity-bdd</groupId>
             <artifactId>serenity-screenplay</artifactId>
@@ -83,7 +82,6 @@
             <artifactId>javafaker</artifactId>
             <version>1.0.2</version>
         </dependency>
-
     </dependencies>
 
     <build>

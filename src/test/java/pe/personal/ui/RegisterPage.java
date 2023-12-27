@@ -3,8 +3,8 @@ package pe.personal.ui;
 import net.thucydides.core.pages.PageObject;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import static pe.personal.utils.TimerManager.waitTime;
+import pe.personal.constants.KeysConstants;
+import pe.personal.utils.TimerManager;
 
 public class RegisterPage extends PageObject{
 
@@ -67,13 +67,13 @@ public class RegisterPage extends PageObject{
     }
     public void pressLogOutLink(){
         linkLogOut.click();
-        waitTime(1);
+        TimerManager.waitTime(1);
     }
     public String getUsernameValue(){
-        return txtUsername.getAttribute("value");
+        return txtUsername.getAttribute(KeysConstants.VALUE_VALUE);
     }
     public void isWelcomeTitleDisplayed(){
-        waitTime(1);
+        TimerManager.waitTime(1);
         lblWelcomeTitle.isDisplayed();
     }
     public String getWelcomeTitle(){
@@ -116,9 +116,8 @@ public class RegisterPage extends PageObject{
     public void typeSSN(String ssn){
         txtSSN.click();
         txtSSN.sendKeys(ssn);
-        waitTime(1);
+        TimerManager.waitTime(1);
     }
-
     public void typeUsername(String username){
         txtUsername.click();
         txtUsername.sendKeys(username);
@@ -132,7 +131,7 @@ public class RegisterPage extends PageObject{
         txtRepeatPassword.sendKeys(password);
     }
     public void pressRegisterButton(){
-        waitTime(2);
+        TimerManager.waitTime(1);
         btnRegister.click();
     }
 

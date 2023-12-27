@@ -3,8 +3,7 @@ package pe.personal.ui;
 import net.thucydides.core.pages.PageObject;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import static pe.personal.utils.TimerManager.waitTime;
+import pe.personal.utils.TimerManager;
 
 public class MenuPage extends PageObject {
 
@@ -32,7 +31,7 @@ public class MenuPage extends PageObject {
     public void pressOpenNewAccountLink(){
         linkOpenNewAccount.isDisplayed();
         linkOpenNewAccount.click();
-        waitTime(2);
+        TimerManager.waitTime(2);
     }
     public void pressAccountOverviewLink(){
         linkAccountsOverview.isDisplayed();

@@ -8,20 +8,17 @@ import net.thucydides.core.util.EnvironmentVariables;
 import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pe.personal.constants.KeysConstants;
+import pe.personal.constants.ModuleConstants;
 import pe.personal.ui.*;
-import pe.personal.utils.Constants;
-import pe.personal.utils.FileManager;
+import pe.personal.utils.*;
 
 import java.util.List;
 import java.util.Map;
 
-import static pe.personal.utils.NavigateManager.*;
-import static pe.personal.utils.RandomVarManager.generateRandomValues;
-
 public class ParabankSteps {
 
     private EnvironmentVariables environmentVariables;
-
     private static String passwordUser1, passwordUser2, tmpUserDecrypted;
 
     HomePage homePage;
@@ -34,23 +31,23 @@ public class ParabankSteps {
 
     public static void setValuesDecrypted(){
         FileManager.getInstance().getValuesDecrypted();
-        passwordUser1 = FileManager.getInstance().getProperties(Constants.PASSWORD_USER1);
-        passwordUser2 = FileManager.getInstance().getProperties(Constants.PASSWORD_USER2);
+        passwordUser1 = FileManager.getInstance().getProperties(KeysConstants.PASSWORD_USER1);
+        passwordUser2 = FileManager.getInstance().getProperties(KeysConstants.PASSWORD_USER2);
     }
 
     @Step
     @Screenshots(afterEachStep = true)
-    public void openParabankPage(){
-        homePage.openUrl(EnvironmentSpecificConfiguration.from(environmentVariables).getProperty("parabank.base.url"));
+    public void openParabankPage() {
+        LOGGER.info("url: "+KeysConstants.URL_PARABANK);
+        homePage.openUrl(EnvironmentSpecificConfiguration.from(environmentVariables).getProperty(KeysConstants.URL_PARABANK));
         homePage.isLogoDisplayed();
         setValuesDecrypted();
     }
-
     @Step
     public void goToRegisterOption(){
         homePage.pressRegisterLink();
         registerPage.isTitleDisplayed();
-        Assert.assertEquals("Signing up is easy!",registerPage.getPageTitle());
+        Assert.assertEquals(ModuleConstants.LABEL_SIGN_UP, registerPage.getPageTitle());
     }
 
     @Step
@@ -69,26 +66,26 @@ public class ParabankSteps {
     @Step
     @Screenshots(afterEachStep = true)
     public void enterLoginInfo(String flow){
-        scrollDown("110");
-        registerPage.typeUsername(generateRandomValues());
+        NavigateManager.scrollDown(ModuleConstants.NUMBER_110);
+        registerPage.typeUsername(RandomVarManager.generateRandomValues());
         tmpUserDecrypted = registerPage.getUsernameValue();
         FileManager.getInstance().propertiesHandlerEncoder(tmpUserDecrypted);
         registerPage.typePassword(passwordUser1);
 
-        if(flow.equalsIgnoreCase("CORRECT"))
+        if(flow.equalsIgnoreCase(ModuleConstants.LABEL_CORRECT))
             registerPage.typeRepeatPassword(passwordUser1);
-        if(flow.equalsIgnoreCase("INCORRECT"))
+        if(flow.equalsIgnoreCase(ModuleConstants.LABEL_INCORRECT))
             registerPage.typeRepeatPassword(passwordUser2);
 
         registerPage.pressRegisterButton();
-        scrollDown("110");
+        NavigateManager.scrollDown(ModuleConstants.NUMBER_110);
     }
 
     @Step
-    public void confirmAccountCreated(){
+    public void confirmAccountCreated(String message){
         registerPage.isWelcomeTitleDisplayed();
-        Assert.assertEquals("Welcome "+tmpUserDecrypted,registerPage.getWelcomeTitle());
-        Assert.assertEquals("Your account was created successfully. You are now logged in.",registerPage.getMessageAccountCreated());
+        Assert.assertEquals(ModuleConstants.LABEL_WELCOME+tmpUserDecrypted,registerPage.getWelcomeTitle());
+        Assert.assertEquals(message, registerPage.getMessageAccountCreated());
         FileManager.getInstance().setValuesEncrypted(tmpUserDecrypted);
         registerPage.pressLogOutLink();
     }
@@ -108,22 +105,22 @@ public class ParabankSteps {
     @Step
     public void selectsLinkFromMenu(String option){
         switch (option) {
-            case "Open New Account":
+            case ModuleConstants.MENU_OPEN_NEW_ACCOUNT:
                 menuPage.pressOpenNewAccountLink();
                 break;
-            case "Accounts Overview":
+            case ModuleConstants.MENU_ACCOUNTS_OVERVIEW:
                 menuPage.pressAccountOverviewLink();
                 break;
-            case "Transfer Funds":
+            case ModuleConstants.MENU_TRANSFER_FUNDS:
                 menuPage.pressTransferFundsLink();
                 break;
-            case "Bill Pay":
+            case ModuleConstants.MENU_BILL_PAY:
                 menuPage.pressBillPayLink();
                 break;
-            case "Find Transactions":
+            case ModuleConstants.MENU_FIND_TRANSACTIONS:
                 menuPage.pressFindTransactionsLink();
                 break;
-            case "Update Contact Info":
+            case ModuleConstants.MENU_UPDATE_CONTACT_INFO:
                 menuPage.pressUpdateContactInfoLink();
             default:
                 menuPage.pressRequestLoanLink();
@@ -132,8 +129,8 @@ public class ParabankSteps {
 
     @Step
     public void opensAnAccount(String accountType){
-        selectItemFromCombobox("type", accountType);
-        selectItemFromCombobox("fromAccountId", getValueFromCombobox("fromAccountId"));
+        NavigateManager.selectItemFromCombobox(KeysConstants.VALUE_TYPE, accountType);
+        NavigateManager.selectItemFromCombobox(KeysConstants.VALUE_ACCOUNT_ID, NavigateManager.getValueFromCombobox(KeysConstants.VALUE_ACCOUNT_ID));
         accountPage.pressOpenNewAccountButton();
     }
 

@@ -2,15 +2,13 @@ package pe.personal.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pe.personal.constants.KeysConstants;
 
 import java.io.*;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-
-import static pe.personal.utils.Constants.DYNAMIC_FILE_PATH;
-import static pe.personal.utils.Constants.PROPERTIES_PATH;
 
 public class FileManager {
 
@@ -25,7 +23,7 @@ public class FileManager {
     private void readProperties(){
 
         try {
-            File text = new File(PROPERTIES_PATH);
+            File text = new File(KeysConstants.PROPERTIES_PATH);
 
             Scanner scnr = new Scanner(text);
             while(scnr.hasNextLine()){
@@ -42,10 +40,9 @@ public class FileManager {
         PrintWriter pw = null;
         try
         {
-            fichero = new FileWriter(DYNAMIC_FILE_PATH);
-            pw = new PrintWriter(fichero);
-            pw.println(propertiesHandlerEncoder(val));
-
+            fichero = new FileWriter(KeysConstants.DYNAMIC_FILE_PATH);
+                pw = new PrintWriter(fichero);
+                pw.println(propertiesHandlerEncoder(val));
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         } finally {
@@ -63,7 +60,7 @@ public class FileManager {
         BufferedReader br = null;
         String linea="";
         try {
-            archivo = new File (DYNAMIC_FILE_PATH);
+            archivo = new File (KeysConstants.DYNAMIC_FILE_PATH);
             fr = new FileReader (archivo);
             br = new BufferedReader(fr);
             linea = br.readLine();
@@ -84,8 +81,7 @@ public class FileManager {
     }
     public String readValueEncrypted(){
         byte[] decodedBytes = Base64.getUrlDecoder().decode(readFile());
-        String val = new String(decodedBytes);
-        return val;
+        return new String(decodedBytes);
     }
     private void propertiesHandlerDecoder(String line){
         String key = line.substring(0,line.indexOf("="));
@@ -111,8 +107,8 @@ public class FileManager {
     public void getValuesDecrypted(){
         readProperties();
     }
-    public void setValuesEncrypted(String var){
-        writeFile(var);
+    public void setValuesEncrypted(String valuesEncrypted){
+        writeFile(valuesEncrypted);
     }
 
 }

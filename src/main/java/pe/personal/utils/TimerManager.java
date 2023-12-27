@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 public class TimerManager {
 
+    private TimerManager(){}
     private static final Logger LOGGER = LoggerFactory.getLogger(TimerManager.class);
 
     public static void waitTime(long seconds) {
