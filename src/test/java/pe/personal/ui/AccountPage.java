@@ -1,15 +1,31 @@
 package pe.personal.ui;
 
-import net.serenitybdd.core.pages.WebElementFacade;
 import net.thucydides.core.pages.PageObject;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import pe.personal.utils.TimerManager;
 
 public class AccountPage extends PageObject {
 
     @FindBy(xpath = "//*[@id=\"rightPanel\"]/div/div/form/div/input")
-    public WebElementFacade btnOpenNewAccount;
+    private WebElement btnOpenNewAccount;
 
     @FindBy(tagName = "h1")
-    public WebElementFacade lblAccountOpened;
+    private WebElement lblAccountOpened;
+
+    @FindBy(id = "newAccountId")
+    private WebElement lblAccountCreated;
+
+    public void pressOpenNewAccountButton(){
+        btnOpenNewAccount.isDisplayed();
+        btnOpenNewAccount.click();
+        TimerManager.waitTime(2);
+    }
+    public String getAccountOpenedMessage(){
+        return lblAccountOpened.getText().trim();
+    }
+    public String getAccountCreateMessage(){
+        return lblAccountCreated.getText().trim();
+    }
 
 }

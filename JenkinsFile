@@ -2,8 +2,8 @@
 pipeline {
     agent any
     parameters {
-        string(defaultValue: 'uat', name: 'ENVIRONMENT')
-        string(defaultValue: '@regression', name: 'TAG')
+        string(defaultValue: 'prd', name: 'ENVIRONMENT')
+        string(defaultValue: 'regression', name: 'TAG')
     }
     stages {
         stage('Checkout Code') {
@@ -17,8 +17,8 @@ pipeline {
         stage('Run Account Demo Tests') {
             steps {
                 println('**** Trigger Web Tests ****')
-                sh "mvn clean verify -Dcucumber.filter.tags=@${TAG} -Denvironment=${ENVIRONMENT}"
-                sh "mvn serenity:aggregate"
+                bat "mvn clean verify -Dcucumber.filter.tags=@${TAG} -Denvironment=${ENVIRONMENT}"
+                bat "mvn serenity:aggregate"
             }
         }
         stage('Generate Serenity Report') {
@@ -29,16 +29,26 @@ pipeline {
                                 alwaysLinkToLastBuild: true,
                                 allowMissing: true,
                                 keepAll: true,
-                                reportDir: 'target/site/serenity',
+                                reportDir: 'target/site/serenity/',
                                 reportFiles: 'index.html',
-                                reportName: 'Resultado Demo Parabank',
-                                reportTitles: 'Demo Parabank'
+                                reportName: 'Parabank Demo Result',
+                                reportTitles: 'Demo Parabank',
+                                useWrapperFileDirectly: true
                         ]
                 )
             }
         }
-		
-    }
-}
 
+    }
+
+    post {
+        success {
+            echo 'The pipeline was executed successfully.'
+        }
+        failure {
+            echo 'The pipeline failed.'
+        }
+    }
+
+}
 

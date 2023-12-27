@@ -8,13 +8,15 @@ import io.cucumber.java.en.When;
 import net.thucydides.core.annotations.Steps;
 import pe.personal.steps.ParabankSteps;
 
+import java.net.MalformedURLException;
+
 public class ParabankSD {
 
     @Steps
     ParabankSteps steps;
 
     @Given("the user opens PARABANK page")
-    public void openParabankPage(){
+    public void openParabankPage() {
         steps.openParabankPage();
     }
     @And("goes to the Register option")
@@ -25,30 +27,30 @@ public class ParabankSD {
     public void enterPersonalInformation(DataTable table){
         steps.enterPersonalInformation(table);
     }
-    @And("enters his login info")
-    public void enterLoginInfo(DataTable table){
-        steps.enterLoginInfo(table);
+    @And("^enters his login info with (CORRECT|INCORRECT) values$")
+    public void enterLoginInfo(String flow){
+        steps.enterLoginInfo(flow);
     }
-    @Then("confirms that his account has been created")
-    public void confirmAccountCreated(){
-        steps.confirmAccountCreated();
+    @Then("confirms that his account has been created {string}")
+    public void confirmAccountCreated(String message){
+        steps.confirmAccountCreated(message);
     }
     @Then("should display a message {string}")
     public void shouldDisplayErrorMessage(String message){
         steps.shouldDisplayErrorMessage(message);
     }
 
-    @When("enters the username {string} and password {string}")
-    public void entersUsernamePassword(String user, String pass){
-        steps.entersUsernamePassword(user, pass);
+    @When("enters the username and password")
+    public void entersUsernamePassword(){
+        steps.entersUsernamePassword();
     }
     @And("selects link {string}")
-    public void selectsLinkFromMenu(String var){
-        steps.selectsLinkFromMenu(var);
+    public void selectsLinkFromMenu(String option){
+        steps.selectsLinkFromMenu(option);
     }
-    @And("opens an account {string} and selects minimum of {string} to be deposited")
-    public void opensAnAccount(String accountType, String amount){
-        steps.opensAnAccount(accountType, amount);
+    @And("opens an account {string} and selects account to transfer funds")
+    public void opensAnAccount(String accountType){
+        steps.opensAnAccount(accountType);
     }
     @Then("should display {string}")
     public void shouldDisplay(String var){

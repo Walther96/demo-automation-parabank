@@ -1,108 +1,137 @@
 package pe.personal.ui;
 
-import net.serenitybdd.core.pages.WebElementFacade;
 import net.thucydides.core.pages.PageObject;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import pe.personal.constants.KeysConstants;
+import pe.personal.utils.TimerManager;
 
 public class RegisterPage extends PageObject{
 
     @FindBy(tagName = "h1")
-    public WebElementFacade titlePage;
+    private WebElement titlePage;
 
     @FindBy(id = "customer.firstName")
-    public WebElementFacade txtFirstName;
+    private WebElement txtFirstName;
 
     @FindBy(id = "customer.lastName")
-    public WebElementFacade txtLastName;
+    private WebElement txtLastName;
 
     @FindBy(id = "customer.address.street")
-    public WebElementFacade txtAddressStreet;
+    private WebElement txtAddressStreet;
 
     @FindBy(id = "customer.address.city")
-    public WebElementFacade txtAddressCity;
+    private WebElement txtAddressCity;
 
     @FindBy(id = "customer.address.state")
-    public WebElementFacade txtAddressState;
+    private WebElement txtAddressState;
 
     @FindBy(id = "customer.address.zipCode")
-    public WebElementFacade txtAddressZipCode;
+    private WebElement txtAddressZipCode;
 
     @FindBy(id = "customer.phoneNumber")
-    public WebElementFacade txtPhone;
+    private WebElement txtPhone;
 
     @FindBy(id = "customer.ssn")
-    public WebElementFacade txtSSN;
+    private WebElement txtSSN;
 
     @FindBy(id = "customer.username")
-    public WebElementFacade txtUsername;
+    private WebElement txtUsername;
 
     @FindBy(id = "customer.password")
-    public WebElementFacade txtPassword;
+    private WebElement txtPassword;
 
     @FindBy(id = "repeatedPassword")
-    public WebElementFacade txtRepeatPassword;
+    private WebElement txtRepeatPassword;
 
     @FindBy(xpath = "//input[@value='Register']")
-    public WebElementFacade btnRegister;
+    private WebElement btnRegister;
 
-    @FindBy(className = "title")
-    public WebElementFacade lblWelcomeTitle;
+    @FindBy(xpath = "//*[@id=\"rightPanel\"]/h1")
+    private WebElement lblWelcomeTitle;
 
     @FindBy(xpath = "//*[@id='rightPanel']/p")
-    public WebElementFacade lblMessageAccountCreated;
+    private WebElement lblMessageAccountCreated;
 
     @FindBy(id = "repeatedPassword.errors")
-    public WebElementFacade lblPasswordErrorMessage;
+    private WebElement lblPasswordErrorMessage;
 
     @FindBy(linkText = "Log Out")
-    public WebElementFacade linkLogOut;
+    private WebElement linkLogOut;
 
+    public void isTitleDisplayed(){
+        titlePage.isDisplayed();
+    }
+    public String getPageTitle(){
+        return titlePage.getText().trim();
+    }
+    public void pressLogOutLink(){
+        linkLogOut.click();
+        TimerManager.waitTime(1);
+    }
+    public String getUsernameValue(){
+        return txtUsername.getAttribute(KeysConstants.VALUE_VALUE);
+    }
+    public void isWelcomeTitleDisplayed(){
+        TimerManager.waitTime(1);
+        lblWelcomeTitle.isDisplayed();
+    }
+    public String getWelcomeTitle(){
+        return lblWelcomeTitle.getText().trim();
+    }
+    public String getMessageAccountCreated(){
+        return lblMessageAccountCreated.getText().trim();
+    }
+    public String getPasswordErrorMessage(){
+        return lblPasswordErrorMessage.getText().trim();
+    }
     public void typeFirstName(String firstName){
         txtFirstName.click();
-        txtFirstName.type(firstName);
+        txtFirstName.sendKeys(firstName);
     }
     public void typeLastName(String lastName){
         txtLastName.click();
-        txtLastName.type(lastName);
+        txtLastName.sendKeys(lastName);
     }
     public void typeAddressStreet(String addressStreet){
         txtAddressStreet.click();
-        txtAddressStreet.type(addressStreet);
+        txtAddressStreet.sendKeys(addressStreet);
     }
     public void typeAddressCity(String addressCity){
         txtAddressCity.click();
-        txtAddressCity.type(addressCity);
+        txtAddressCity.sendKeys(addressCity);
     }
     public void typeAddressState(String addressState){
         txtAddressState.click();
-        txtAddressState.type(addressState);
+        txtAddressState.sendKeys(addressState);
     }
     public void typeAddressZipCode(String addressZipCode){
         txtAddressZipCode.click();
-        txtAddressZipCode.type(addressZipCode);
+        txtAddressZipCode.sendKeys(addressZipCode);
     }
     public void typePhone(String phone){
         txtPhone.click();
-        txtPhone.type(phone);
+        txtPhone.sendKeys(phone);
     }
     public void typeSSN(String ssn){
         txtSSN.click();
-        txtSSN.type(ssn);
+        txtSSN.sendKeys(ssn);
+        TimerManager.waitTime(1);
     }
-
     public void typeUsername(String username){
         txtUsername.click();
-        txtUsername.type(username);
+        txtUsername.sendKeys(username);
     }
     public void typePassword(String password){
         txtPassword.click();
-        txtPassword.type(password);
+        txtPassword.sendKeys(password);
     }
     public void typeRepeatPassword(String password){
         txtRepeatPassword.click();
-        txtRepeatPassword.type(password);
+        txtRepeatPassword.sendKeys(password);
     }
-    public void pressButtonRegister(){
+    public void pressRegisterButton(){
+        TimerManager.waitTime(1);
         btnRegister.click();
     }
 

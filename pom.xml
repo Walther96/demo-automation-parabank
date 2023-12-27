@@ -18,7 +18,6 @@
         <serenity.maven.version>3.9.4</serenity.maven.version>
         <serenity.cucumber.version>2.2.6</serenity.cucumber.version>
         <cucumber.version>3.6.23</cucumber.version>
-        <encoding>UTF-8</encoding>
     </properties>
 
     <dependencies>
@@ -42,7 +41,6 @@
             <artifactId>serenity-cucumber</artifactId>
             <version>${cucumber.version}</version>
         </dependency>
-
         <dependency>
             <groupId>net.serenity-bdd</groupId>
             <artifactId>serenity-screenplay</artifactId>
@@ -103,7 +101,6 @@
                 <version>3.1.2</version>
                 <configuration>
                     <skip>true</skip>
-                    <skipTests>true</skipTests>
                 </configuration>
             </plugin>
             <plugin>

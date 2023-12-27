@@ -1,24 +1,25 @@
 package pe.personal.steps;
 
-import com.github.javafaker.Faker;
 import io.cucumber.datatable.DataTable;
-import net.serenitybdd.core.Serenity;
 import net.serenitybdd.core.environment.EnvironmentSpecificConfiguration;
+import net.thucydides.core.annotations.Screenshots;
 import net.thucydides.core.annotations.Step;
 import net.thucydides.core.util.EnvironmentVariables;
 import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pe.personal.constants.KeysConstants;
+import pe.personal.constants.ModuleConstants;
 import pe.personal.ui.*;
+import pe.personal.utils.*;
 
 import java.util.List;
 import java.util.Map;
 
-import static pe.personal.utils.Util.*;
-
 public class ParabankSteps {
 
     private EnvironmentVariables environmentVariables;
+    private static String passwordUser1, passwordUser2, tmpUserDecrypted;
 
     HomePage homePage;
     RegisterPage registerPage;
@@ -26,25 +27,31 @@ public class ParabankSteps {
     MenuPage menuPage;
     AccountPage accountPage;
 
-    String varUsername = "";
-
     private static final Logger LOGGER = LoggerFactory.getLogger(ParabankSteps.class);
 
-    @Step
-    public void openParabankPage(){
-        homePage.openUrl(EnvironmentSpecificConfiguration.from(environmentVariables).getProperty("parabank.base.url"));
-        homePage.logo.isDisplayed();
-        waitTime(3);
+    public static void setValuesDecrypted(){
+        FileManager.getInstance().getValuesDecrypted();
+        passwordUser1 = FileManager.getInstance().getProperties(KeysConstants.PASSWORD_USER1);
+        passwordUser2 = FileManager.getInstance().getProperties(KeysConstants.PASSWORD_USER2);
     }
 
+    @Step
+    @Screenshots(afterEachStep = true)
+    public void openParabankPage() {
+        LOGGER.info("url: "+KeysConstants.URL_PARABANK);
+        homePage.openUrl(EnvironmentSpecificConfiguration.from(environmentVariables).getProperty(KeysConstants.URL_PARABANK));
+        homePage.isLogoDisplayed();
+        setValuesDecrypted();
+    }
     @Step
     public void goToRegisterOption(){
-        homePage.linkRegister.click();
-        registerPage.titlePage.isDisplayed();
-        Assert.assertEquals("Signing up is easy!",registerPage.titlePage.getText().trim());
+        homePage.pressRegisterLink();
+        registerPage.isTitleDisplayed();
+        Assert.assertEquals(ModuleConstants.LABEL_SIGN_UP, registerPage.getPageTitle());
     }
 
     @Step
+    @Screenshots(afterEachStep = true)
     public void enterPersonalInformation(DataTable table){
         List<Map<String, String>> list = table.asMaps(String.class, String.class);
         registerPage.typeFirstName(list.get(0).get("First name"));
@@ -57,83 +64,82 @@ public class ParabankSteps {
         registerPage.typeSSN(list.get(0).get("SSN"));
     }
     @Step
-    public void enterLoginInfo(DataTable table){
-        scrollDown("100");
-        List<Map<String, String>> list = table.asMaps(String.class, String.class);
-        Faker faker = Faker.instance();
-        registerPage.typeUsername(faker.artist().name());
-        varUsername = registerPage.txtUsername.getValue();
-        registerPage.typePassword(list.get(0).get("Password"));
-        registerPage.typeRepeatPassword(list.get(0).get("Repeat password"));
-        registerPage.pressButtonRegister();
-        scrollDown("100");
-        waitTime(3);
+    @Screenshots(afterEachStep = true)
+    public void enterLoginInfo(String flow){
+        NavigateManager.scrollDown(ModuleConstants.NUMBER_110);
+        registerPage.typeUsername(RandomVarManager.generateRandomValues());
+        tmpUserDecrypted = registerPage.getUsernameValue();
+        FileManager.getInstance().propertiesHandlerEncoder(tmpUserDecrypted);
+        registerPage.typePassword(passwordUser1);
+
+        if(flow.equalsIgnoreCase(ModuleConstants.LABEL_CORRECT))
+            registerPage.typeRepeatPassword(passwordUser1);
+        if(flow.equalsIgnoreCase(ModuleConstants.LABEL_INCORRECT))
+            registerPage.typeRepeatPassword(passwordUser2);
+
+        registerPage.pressRegisterButton();
+        NavigateManager.scrollDown(ModuleConstants.NUMBER_110);
     }
 
     @Step
-    public void confirmAccountCreated(){
-        registerPage.lblWelcomeTitle.isDisplayed();
-        Assert.assertEquals("Welcome "+varUsername,registerPage.lblWelcomeTitle.getText().trim());
-        Assert.assertEquals("Your account was created successfully. You are now logged in.",registerPage.lblMessageAccountCreated.getText().trim());
-        registerPage.linkLogOut.click();
-        waitTime(3);
+    public void confirmAccountCreated(String message){
+        registerPage.isWelcomeTitleDisplayed();
+        Assert.assertEquals(ModuleConstants.LABEL_WELCOME+tmpUserDecrypted,registerPage.getWelcomeTitle());
+        Assert.assertEquals(message, registerPage.getMessageAccountCreated());
+        FileManager.getInstance().setValuesEncrypted(tmpUserDecrypted);
+        registerPage.pressLogOutLink();
     }
 
     @Step
     public void shouldDisplayErrorMessage(String message){
-        Assert.assertEquals(message,registerPage.lblPasswordErrorMessage.getText());
+        Assert.assertEquals(message,registerPage.getPasswordErrorMessage());
     }
 
     @Step
-    public void entersUsernamePassword(String user, String pass){
-        loginPage.txtUsername.click();
-        loginPage.txtUsername.type(user);
-        loginPage.txtPassword.type(pass);
-        loginPage.btnLogIn.click();
-        waitTime(2);
+    public void entersUsernamePassword(){
+        loginPage.typeUsername(FileManager.getInstance().readValueEncrypted());
+        loginPage.typePassword(passwordUser1);
+        loginPage.pressLoginButton();
     }
 
     @Step
     public void selectsLinkFromMenu(String option){
         switch (option) {
-            case "Open New Account":
-                menuPage.linkOpenNewAccount.click();
+            case ModuleConstants.MENU_OPEN_NEW_ACCOUNT:
+                menuPage.pressOpenNewAccountLink();
                 break;
-            case "Accounts Overview":
-                menuPage.linkAccountsOverview.click();
+            case ModuleConstants.MENU_ACCOUNTS_OVERVIEW:
+                menuPage.pressAccountOverviewLink();
                 break;
-            case "Transfer Funds":
-                menuPage.linkTransferFunds.click();
+            case ModuleConstants.MENU_TRANSFER_FUNDS:
+                menuPage.pressTransferFundsLink();
                 break;
-            case "Bill Pay":
-                menuPage.linkBillPay.click();
+            case ModuleConstants.MENU_BILL_PAY:
+                menuPage.pressBillPayLink();
                 break;
-            case "Find Transactions":
-                menuPage.linkFindTransactions.click();
+            case ModuleConstants.MENU_FIND_TRANSACTIONS:
+                menuPage.pressFindTransactionsLink();
                 break;
-            case "Update Contact Info":
-                menuPage.linkUpdateContactInfo.click();
+            case ModuleConstants.MENU_UPDATE_CONTACT_INFO:
+                menuPage.pressUpdateContactInfoLink();
             default:
-                menuPage.linkRequestLoan.click();
+                menuPage.pressRequestLoanLink();
         }
-        waitTime(2);
     }
 
     @Step
-    public void opensAnAccount(String accountType, String amount){
-        selectValueFromCombobox("type", accountType);
-        selectValueFromCombobox("fromAccountId", amount);
-        accountPage.btnOpenNewAccount.isDisplayed();
-        accountPage.btnOpenNewAccount.click();
-        waitTime(2);
+    public void opensAnAccount(String accountType){
+        NavigateManager.selectItemFromCombobox(KeysConstants.VALUE_TYPE, accountType);
+        NavigateManager.selectItemFromCombobox(KeysConstants.VALUE_ACCOUNT_ID, NavigateManager.getValueFromCombobox(KeysConstants.VALUE_ACCOUNT_ID));
+        accountPage.pressOpenNewAccountButton();
     }
 
     @Step
     public void shouldDisplay(String message){
-        LOGGER.info(accountPage.lblAccountOpened.getText());
-        Assert.assertEquals(message,accountPage.lblAccountOpened.getText());
-        registerPage.linkLogOut.click();
-        waitTime(2);
+        LOGGER.info(accountPage.getAccountOpenedMessage());
+        LOGGER.info(accountPage.getAccountCreateMessage());
+        Assert.assertEquals(message,accountPage.getAccountOpenedMessage());
+        registerPage.pressLogOutLink();
     }
 
 }

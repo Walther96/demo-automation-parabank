@@ -1,18 +1,30 @@
 package pe.personal.ui;
 
-import net.serenitybdd.core.pages.WebElementFacade;
 import net.thucydides.core.pages.PageObject;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import pe.personal.utils.TimerManager;
 
 public class LoginPage extends PageObject{
 
     @FindBy(name = "username")
-    public WebElementFacade txtUsername;
+    private WebElement txtUsername;
 
     @FindBy(name = "password")
-    public WebElementFacade txtPassword;
+    private WebElement txtPassword;
 
     @FindBy(xpath = "//*[@id=\"loginPanel\"]/form/div[3]/input")
-    public WebElementFacade btnLogIn;
+    private WebElement btnLogIn;
+
+    public void typeUsername(String user){
+        txtUsername.sendKeys(user);
+    }
+    public void typePassword(String pass){
+        txtPassword.sendKeys(pass);
+    }
+    public void pressLoginButton(){
+        btnLogIn.click();
+        TimerManager.waitTime(2);
+    }
 
 }
